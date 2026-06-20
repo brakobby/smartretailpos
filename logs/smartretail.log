@@ -1,0 +1,8 @@
+2026-06-19 18:27:55,486  INFO      __main__ — Starting SmartRetail POS…
+2026-06-19 18:27:57,473  INFO      app.database.database — Initialising database at sqlite:///C:\Users\DELL\Documents\Projects\SmartRetailPOS\data\smartretail.db
+2026-06-19 18:27:57,969  INFO      app.database.database — Default admin user created. Username: admin | Password: admin123
+2026-06-19 18:27:57,975  INFO      app.database.database — Database ready.
+2026-06-19 18:27:57,977  INFO      __main__ — Database initialised successfully.
+2026-06-19 18:27:59,022  INFO      __main__ — Application event loop started.
+2026-06-19 18:28:16,896  INFO      app.services.auth_service — User 'admin' authenticated successfully (role=Administrator)
+2026-06-20 13:31:51,361  INFO      __main__ — Application exited with code 0.
