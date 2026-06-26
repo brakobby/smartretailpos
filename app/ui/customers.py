@@ -23,14 +23,16 @@ class CustomersWidget(QWidget):
 
     def setup_ui(self):
         layout = QVBoxLayout(self)
-        layout.setSpacing(12)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(16)
 
         header = QLabel("Customers and creditors")
-        header.setStyleSheet("font-size: 18px; font-weight: bold;")
+        header.setStyleSheet("font-size: 20px; font-weight: 700; color: #0f172a;")
         layout.addWidget(header)
 
         controls = QHBoxLayout()
         refresh_btn = QPushButton("Refresh")
+        refresh_btn.setStyleSheet("QPushButton { background: #334155; color: white; border-radius: 10px; padding: 10px 14px; font-weight: 600; }")
         refresh_btn.clicked.connect(self.load_customers)
         controls.addWidget(refresh_btn)
         controls.addStretch()
@@ -39,9 +41,31 @@ class CustomersWidget(QWidget):
         self.table = QTableWidget(0, 6)
         self.table.setHorizontalHeaderLabels(["ID", "Name", "Phone", "Credit Limit", "Outstanding", "Paid So Far"])
         self.table.setAlternatingRowColors(True)
+        self.table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                background: #ffffff;
+                gridline-color: #f1f5f9;
+            }
+            QHeaderView::section {
+                background-color: #f8fafc;
+                color: #0f172a;
+                font-weight: 600;
+                padding: 10px;
+                border: none;
+            }
+        """)
         layout.addWidget(self.table)
 
         form_frame = QWidget()
+        form_frame.setStyleSheet("""
+            QWidget {
+                background: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 14px;
+            }
+        """)
         form_layout = QFormLayout(form_frame)
         self.name_input = QLineEdit()
         self.phone_input = QLineEdit()
@@ -58,10 +82,12 @@ class CustomersWidget(QWidget):
         form_layout.addRow("Payment amount", self.payment_input)
 
         add_button = QPushButton("Add customer")
+        add_button.setStyleSheet("QPushButton { background: #2563eb; color: white; border-radius: 10px; padding: 10px 16px; font-weight: 600; }")
         add_button.clicked.connect(self.add_customer)
         form_layout.addRow(add_button)
 
         pay_button = QPushButton("Record payment")
+        pay_button.setStyleSheet("QPushButton { background: #16a34a; color: white; border-radius: 10px; padding: 10px 16px; font-weight: 600; }")
         pay_button.clicked.connect(self.record_payment)
         form_layout.addRow(pay_button)
         layout.addWidget(form_frame)

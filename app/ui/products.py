@@ -25,19 +25,22 @@ class ProductsWidget(QWidget):
 
     def setup_ui(self):
         layout = QVBoxLayout(self)
-        layout.setSpacing(12)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(16)
 
         header = QLabel("Product catalogue")
-        header.setStyleSheet("font-size: 18px; font-weight: bold;")
+        header.setStyleSheet("font-size: 20px; font-weight: 700; color: #0f172a;")
         layout.addWidget(header)
 
         controls = QHBoxLayout()
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Search by name or barcode")
+        self.search_input.setStyleSheet("QLineEdit { padding: 10px; border: 1px solid #cbd5e1; border-radius: 10px; }")
         self.search_input.textChanged.connect(self.load_products)
         controls.addWidget(self.search_input)
 
         refresh_btn = QPushButton("Refresh")
+        refresh_btn.setStyleSheet("QPushButton { background: #334155; color: white; border-radius: 10px; padding: 10px 14px; font-weight: 600; }")
         refresh_btn.clicked.connect(self.load_products)
         controls.addWidget(refresh_btn)
         layout.addLayout(controls)
@@ -46,22 +49,48 @@ class ProductsWidget(QWidget):
         self.table.setHorizontalHeaderLabels(["ID", "Name", "Barcode", "Category", "Cost", "Price", "Stock"])
         self.table.setAlternatingRowColors(True)
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                background: #ffffff;
+                gridline-color: #f1f5f9;
+            }
+            QHeaderView::section {
+                background-color: #f8fafc;
+                color: #0f172a;
+                font-weight: 600;
+                padding: 10px;
+                border: none;
+            }
+        """)
         layout.addWidget(self.table)
 
         form_frame = QWidget()
+        form_frame.setStyleSheet("""
+            QWidget {
+                background: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 14px;
+            }
+        """)
         form_layout = QFormLayout(form_frame)
         self.name_input = QLineEdit()
         self.barcode_input = QLineEdit()
         self.category_input = QLineEdit("General")
         self.cost_input = QDoubleSpinBox()
         self.cost_input.setMaximum(1000000)
+        self.cost_input.setStyleSheet("QDoubleSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
         self.selling_input = QDoubleSpinBox()
         self.selling_input.setMaximum(1000000)
+        self.selling_input.setStyleSheet("QDoubleSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
         self.stock_input = QSpinBox()
         self.stock_input.setMaximum(100000)
+        self.stock_input.setStyleSheet("QSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
         self.low_stock_input = QSpinBox()
         self.low_stock_input.setValue(10)
         self.low_stock_input.setMaximum(100000)
+        self.low_stock_input.setStyleSheet("QSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
 
         form_layout.addRow("Name", self.name_input)
         form_layout.addRow("Barcode", self.barcode_input)
@@ -72,6 +101,7 @@ class ProductsWidget(QWidget):
         form_layout.addRow("Low-stock alert", self.low_stock_input)
 
         add_button = QPushButton("Create product")
+        add_button.setStyleSheet("QPushButton { background: #2563eb; color: white; border-radius: 10px; padding: 10px 16px; font-weight: 600; }")
         add_button.clicked.connect(self.add_product)
         form_layout.addRow(add_button)
         layout.addWidget(form_frame)

@@ -25,18 +25,41 @@ class InventoryWidget(QWidget):
 
     def setup_ui(self):
         layout = QVBoxLayout(self)
-        layout.setSpacing(12)
+        layout.setContentsMargins(24, 24, 24, 24)
+        layout.setSpacing(16)
 
         header = QLabel("Inventory control")
-        header.setStyleSheet("font-size: 18px; font-weight: bold;")
+        header.setStyleSheet("font-size: 20px; font-weight: 700; color: #0f172a;")
         layout.addWidget(header)
 
         self.table = QTableWidget(0, 5)
         self.table.setHorizontalHeaderLabels(["ID", "Name", "Stock", "Low Alert", "Status"])
         self.table.setAlternatingRowColors(True)
+        self.table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                background: #ffffff;
+                gridline-color: #f1f5f9;
+            }
+            QHeaderView::section {
+                background-color: #f8fafc;
+                color: #0f172a;
+                font-weight: 600;
+                padding: 10px;
+                border: none;
+            }
+        """)
         layout.addWidget(self.table)
 
         form_frame = QWidget()
+        form_frame.setStyleSheet("""
+            QWidget {
+                background: #ffffff;
+                border: 1px solid #e2e8f0;
+                border-radius: 14px;
+            }
+        """)
         form_layout = QFormLayout(form_frame)
         self.product_combo = QComboBox()
         self.quantity_box = QSpinBox()
@@ -47,6 +70,7 @@ class InventoryWidget(QWidget):
         form_layout.addRow("Notes", self.notes_input)
 
         update_btn = QPushButton("Adjust stock")
+        update_btn.setStyleSheet("QPushButton { background: #2563eb; color: white; border-radius: 10px; padding: 10px 16px; font-weight: 600; }")
         update_btn.clicked.connect(self.adjust_inventory)
         form_layout.addRow(update_btn)
         layout.addWidget(form_frame)
