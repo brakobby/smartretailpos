@@ -173,12 +173,12 @@ class MainWindow(QMainWindow):
         content_layout.setContentsMargins(0, 0, 0, 0)
         content_layout.setSpacing(0)
         
-        # Top bar
         top_bar = QFrame()
-        top_bar.setFixedHeight(68)
+        top_bar.setFixedHeight(72)
         top_bar.setStyleSheet("""
             QFrame {
-                background-color: #091424;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #091424, stop:1 #0d1b2e);
                 border-bottom: 1px solid #17263a;
             }
             QLabel {
@@ -188,12 +188,16 @@ class MainWindow(QMainWindow):
             }
             QPushButton {
                 border: none;
-                background: transparent;
+                background-color: rgba(255,255,255,0.06);
                 color: #8fb2ff;
-                font-size: 16px;
+                font-size: 14px;
+                border-radius: 10px;
+                min-width: 34px;
+                min-height: 34px;
             }
             QPushButton:hover {
                 color: #ffffff;
+                background-color: rgba(59,130,246,0.18);
             }
         """)
         
@@ -202,11 +206,11 @@ class MainWindow(QMainWindow):
         
         # Page title (will be updated dynamically)
         self.page_title = QLabel("Dashboard")
-        self.page_title.setStyleSheet("font-size: 18px; font-weight: 700; color: #f8fbff;")
+        self.page_title.setStyleSheet("font-size: 18px; font-weight: 700; color: #f8fbff; letter-spacing: 0.4px;")
         top_layout.addWidget(self.page_title)
 
         self.status_badge = QLabel("● Live")
-        self.status_badge.setStyleSheet("font-size: 12px; color: #34d399; font-weight: 600;")
+        self.status_badge.setStyleSheet("font-size: 12px; color: #34d399; font-weight: 700; letter-spacing: 0.8px;")
         top_layout.addWidget(self.status_badge)
         top_layout.addStretch()
         
