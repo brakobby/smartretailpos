@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
 from PySide6.QtCore import Qt, QTimer, QSize
 from PySide6.QtGui import QFont, QColor, QPainter, QLinearGradient, QPen, QBrush
 from datetime import datetime, timedelta
-from app.services import get_dashboard_data, get_low_stock_products
+from app.services import get_dashboard_data
 
 
 class DashboardWidget(QWidget):
@@ -123,109 +123,57 @@ class DashboardWidget(QWidget):
         header_layout.addWidget(quick_stats)
         main_layout.addLayout(header_layout)
         
-        # ===== KPI CARDS - ROW 1 =====
+        # ===== KPI CARDS =====
         kpi_grid = QGridLayout()
         kpi_grid.setSpacing(20)
-        
-        # Today's Sales
+
         self.today_sales_card = self.create_kpi_card(
             "TODAY'S SALES",
             "₵0.00",
             "📊",
             "#2563eb",
+            "today_sales",
             "today",
-            ""
         )
         kpi_grid.addWidget(self.today_sales_card, 0, 0)
-        
-        # Today's Profit
-        self.today_profit_card = self.create_kpi_card(
-            "TODAY'S PROFIT",
-            "₵0.00",
-            "💰",
-            "#16a34a",
-            "net profit",
-            ""
-        )
-        kpi_grid.addWidget(self.today_profit_card, 0, 1)
-        
-        # Transactions Count
+
         self.transactions_card = self.create_kpi_card(
             "TRANSACTIONS",
             "0",
             "🧾",
             "#7c3aed",
+            "transactions_count",
             "today",
-            ""
         )
-        kpi_grid.addWidget(self.transactions_card, 0, 2)
-        
-        # Monthly Revenue
-        self.monthly_card = self.create_kpi_card(
-            "MONTHLY REVENUE",
-            "₵0.00",
-            "📅",
-            "#f59e0b",
-            "this month",
-            ""
-        )
-        kpi_grid.addWidget(self.monthly_card, 0, 3)
-        
-        main_layout.addLayout(kpi_grid)
-        
-        # ===== KPI CARDS - ROW 2 =====
-        kpi_grid2 = QGridLayout()
-        kpi_grid2.setSpacing(20)
-        
-        # Inventory Value
+        kpi_grid.addWidget(self.transactions_card, 0, 1)
+
         self.inventory_card = self.create_kpi_card(
             "INVENTORY VALUE",
             "₵0.00",
             "📦",
             "#0f172a",
-            "total stock value",
-            ""
+            "inventory_value",
+            "current stock",
         )
-        kpi_grid2.addWidget(self.inventory_card, 0, 0)
-        
-        # Low Stock Alert
-        self.low_stock_card = self.create_alert_card(
-            "LOW STOCK ALERT",
-            "0",
-            "⚠️",
-            "#ef4444"
-        )
-        kpi_grid2.addWidget(self.low_stock_card, 0, 1)
-        
-        # Customer Debt
+        kpi_grid.addWidget(self.inventory_card, 0, 2)
+
         self.debt_card = self.create_kpi_card(
             "OUTSTANDING DEBT",
             "₵0.00",
             "👥",
             "#dc2626",
-            "from customers",
-            ""
+            "outstanding_debt",
+            "customer credit",
         )
-        kpi_grid2.addWidget(self.debt_card, 0, 2)
-        
-        # Total Products
-        self.products_card = self.create_kpi_card(
-            "TOTAL PRODUCTS",
-            "0",
-            "🏷️",
-            "#0f766e",
-            "active",
-            ""
-        )
-        kpi_grid2.addWidget(self.products_card, 0, 3)
-        
-        main_layout.addLayout(kpi_grid2)
-        
-        # ===== CHARTS & TABLES SECTION =====
+        kpi_grid.addWidget(self.debt_card, 0, 3)
+
+        main_layout.addLayout(kpi_grid)
+
+        # ===== ANALYTICS & RECENT HISTORY =====
         charts_layout = QHBoxLayout()
         charts_layout.setSpacing(20)
-        
-        # Left: Sales Chart (placeholder for now)
+
+        # Left: Sales Chart
         chart_frame = QFrame()
         chart_frame.setMinimumHeight(350)
         chart_frame.setStyleSheet("""
@@ -317,8 +265,8 @@ class DashboardWidget(QWidget):
         chart_layout.addWidget(chart_content)
         
         charts_layout.addWidget(chart_frame, 2)
-        
-        # Right: Low Stock Table
+
+        # Right: Recent Activity
         table_frame = QFrame()
         table_frame.setMinimumHeight(350)
         table_frame.setStyleSheet("""
@@ -335,7 +283,7 @@ class DashboardWidget(QWidget):
         table_layout.setSpacing(15)
         
         table_header = QHBoxLayout()
-        table_title = QLabel("⚠️ Low Stock Products")
+        table_title = QLabel("🕘 Recent Sales")
         table_title.setStyleSheet("""
             font-size: 16px;
             font-weight: bold;
@@ -365,13 +313,13 @@ class DashboardWidget(QWidget):
         table_layout.addLayout(table_header)
         
         # Low stock table
-        self.low_stock_table = QTableWidget()
-        self.low_stock_table.setColumnCount(4)
-        self.low_stock_table.setHorizontalHeaderLabels(["Product", "Category", "Stock", "Status"])
-        self.low_stock_table.horizontalHeader().setStretchLastSection(True)
-        self.low_stock_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.low_stock_table.setAlternatingRowColors(True)
-        self.low_stock_table.setStyleSheet("""
+        self.recent_sales_table = QTableWidget()
+        self.recent_sales_table.setColumnCount(4)
+        self.recent_sales_table.setHorizontalHeaderLabels(["Invoice", "Customer", "Amount", "Status"])
+        self.recent_sales_table.horizontalHeader().setStretchLastSection(True)
+        self.recent_sales_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.recent_sales_table.setAlternatingRowColors(True)
+        self.recent_sales_table.setStyleSheet("""
             QTableWidget {
                 border: 1px solid #ecf0f1;
                 border-radius: 8px;
@@ -395,67 +343,12 @@ class DashboardWidget(QWidget):
                 background-color: #fafbfc;
             }
         """)
-        table_layout.addWidget(self.low_stock_table)
+        table_layout.addWidget(self.recent_sales_table)
         
         charts_layout.addWidget(table_frame, 1)
-        
+
         main_layout.addLayout(charts_layout)
-        
-        # ===== QUICK ACTIONS =====
-        actions_label = QLabel("Quick Actions")
-        actions_label.setStyleSheet("""
-            font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-top: 10px;
-            border: none;
-            background: transparent;
-        """)
-        main_layout.addWidget(actions_label)
-        
-        actions_layout = QHBoxLayout()
-        actions_layout.setSpacing(15)
-        
-        # New Sale Button
-        new_sale_btn = self.create_action_button(
-            "💰", 
-            "New Sale", 
-            "Start a new transaction",
-            "#3498db"
-        )
-        actions_layout.addWidget(new_sale_btn)
-        
-        # Stock In Button
-        stock_in_btn = self.create_action_button(
-            "📥", 
-            "Stock In", 
-            "Receive inventory",
-            "#27ae60"
-        )
-        actions_layout.addWidget(stock_in_btn)
-        
-        # Add Product Button
-        add_product_btn = self.create_action_button(
-            "📦", 
-            "Add Product", 
-            "Create new product",
-            "#f39c12"
-        )
-        actions_layout.addWidget(add_product_btn)
-        
-        # Reports Button
-        reports_btn = self.create_action_button(
-            "📈", 
-            "Reports", 
-            "View analytics",
-            "#8e44ad"
-        )
-        actions_layout.addWidget(reports_btn)
-        
-        main_layout.addLayout(actions_layout)
-        
         main_layout.addStretch()
-        
         scroll.setWidget(content)
         
         # Final layout
@@ -463,7 +356,7 @@ class DashboardWidget(QWidget):
         final_layout.setContentsMargins(0, 0, 0, 0)
         final_layout.addWidget(scroll)
     
-    def create_kpi_card(self, title, value, icon, color, subtitle="", change=""):
+    def create_kpi_card(self, title, value, icon, color, object_name, subtitle="", change=""):
         """Create a professional KPI card"""
         card = QFrame()
         card.setMinimumHeight(130)
@@ -518,7 +411,7 @@ class DashboardWidget(QWidget):
             border: none;
             background: transparent;
         """)
-        value_label.setObjectName(f"kpi_{title.lower().replace(' ', '_').replace("", '')}")
+        value_label.setObjectName(f"kpi_{object_name}")
         layout.addWidget(value_label)
         
         # Subtitle
@@ -534,145 +427,18 @@ class DashboardWidget(QWidget):
         
         return card
     
-    def create_alert_card(self, title, value, icon, color):
-        """Create an alert/warning KPI card"""
-        card = QFrame()
-        card.setMinimumHeight(130)
-        card.setStyleSheet(f"""
-            QFrame {{
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 {color}, stop:1 {color}dd);
-                border-radius: 12px;
-                border: none;
-            }}
-            QLabel {{
-                color: white;
-                border: none;
-                background: transparent;
-            }}
-        """)
-        
-        layout = QVBoxLayout(card)
-        layout.setContentsMargins(20, 18, 20, 18)
-        layout.setSpacing(8)
-        
-        # Header
-        header_row = QHBoxLayout()
-        
-        title_label = QLabel(title)
-        title_label.setStyleSheet("""
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        """)
-        header_row.addWidget(title_label)
-        header_row.addStretch()
-        
-        icon_label = QLabel(icon)
-        icon_label.setStyleSheet("font-size: 20px;")
-        header_row.addWidget(icon_label)
-        
-        layout.addLayout(header_row)
-        
-        # Value
-        value_label = QLabel(value)
-        value_label.setStyleSheet("""
-            font-size: 28px;
-            font-weight: bold;
-        """)
-        value_label.setObjectName("kpi_low_stock_alert")
-        layout.addWidget(value_label)
-        
-        # Subtitle
-        sub_label = QLabel("needs attention")
-        sub_label.setStyleSheet("font-size: 11px; opacity: 0.9;")
-        layout.addWidget(sub_label)
-        
-        return card
-    
-    def create_action_button(self, icon, title, description, color):
-        """Create a professional action button"""
-        btn_frame = QFrame()
-        btn_frame.setMinimumHeight(80)
-        btn_frame.setCursor(Qt.PointingHandCursor)
-        btn_frame.setStyleSheet(f"""
-            QFrame {{
-                background-color: white;
-                border-radius: 12px;
-                border: 1px solid #e8e8e8;
-                border-top: 4px solid {color};
-            }}
-            QFrame:hover {{
-                background-color: {color}10;
-                border: 1px solid {color};
-                border-top: 4px solid {color};
-            }}
-        """)
-        
-        layout = QVBoxLayout(btn_frame)
-        layout.setContentsMargins(15, 12, 15, 12)
-        layout.setSpacing(5)
-        
-        icon_label = QLabel(f"{icon}")
-        icon_label.setStyleSheet("font-size: 24px; border: none; background: transparent;")
-        layout.addWidget(icon_label)
-        
-        title_label = QLabel(title)
-        title_label.setStyleSheet(f"""
-            color: {color};
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            background: transparent;
-        """)
-        layout.addWidget(title_label)
-        
-        desc_label = QLabel(description)
-        desc_label.setStyleSheet("""
-            color: #95a5a6;
-            font-size: 11px;
-            border: none;
-            background: transparent;
-        """)
-        layout.addWidget(desc_label)
-        
-        return btn_frame
-    
     def refresh_data(self):
         """Refresh all dashboard data"""
         try:
             data = get_dashboard_data()
-            
-            # Update Today's Sales
-            self.find_child_with_text(self, "kpi_today's_sales", f"₵{data['today_sales']:,.2f}")
 
-            # Update Today's Profit
-            self.find_child_with_text(self, "kpi_today's_profit", f"₵{data.get('today_profit', 0):,.2f}")
-
-            # Update Transactions
-            self.find_child_with_text(self, "kpi_transactions", str(data['transactions_count']))
-
-            # Update Monthly Revenue
-            self.find_child_with_text(self, "kpi_monthly_revenue", f"₵{data['monthly_sales']:,.2f}")
-
-            # Update Inventory Value
+            self.find_child_with_text(self, "kpi_today_sales", f"₵{data['today_sales']:,.2f}")
+            self.find_child_with_text(self, "kpi_transactions_count", str(data['transactions_count']))
             self.find_child_with_text(self, "kpi_inventory_value", f"₵{data['inventory_value']:,.2f}")
-
-            # Update Low Stock Alert
-            self.find_child_with_text(self, "kpi_low_stock_alert", str(data['low_stock_count']))
-
-            # Update Outstanding Debt
             self.find_child_with_text(self, "kpi_outstanding_debt", f"₵{data['outstanding_debt']:,.2f}")
 
-            # Update Total Products
-            self.find_child_with_text(self, "kpi_total_products", str(data.get('total_products', 0)))
-            
-            # Update low stock table
-            self.update_low_stock_table()
-            
-            # Update sales chart
+            self.update_recent_sales_table()
             self.update_sales_chart()
-            
         except Exception as e:
             print(f"Error refreshing dashboard: {e}")
     
@@ -682,24 +448,26 @@ class DashboardWidget(QWidget):
         if widget:
             widget.setText(text)
     
-    def update_low_stock_table(self):
-        """Update low stock products table"""
+    def update_recent_sales_table(self):
+        """Update recent sales history table"""
         try:
-            products = get_low_stock_products()
-            self.low_stock_table.setRowCount(len(products))
-            
-            for i, product in enumerate(products[:5]):  # Show top 5
-                self.low_stock_table.setItem(i, 0, QTableWidgetItem(product.name))
-                self.low_stock_table.setItem(i, 1, QTableWidgetItem(product.category or "N/A"))
-                self.low_stock_table.setItem(i, 2, QTableWidgetItem(str(product.stock_quantity)))
-                
-                # Status indicator
-                status = "Critical" if product.stock_quantity <= 5 else "Low"
-                status_item = QTableWidgetItem(f"{'🔴' if status == 'Critical' else '🟡'} {status}")
-                self.low_stock_table.setItem(i, 3, status_item)
-                
+            from app.database import SessionLocal, Sale
+            from sqlalchemy import desc
+
+            session = SessionLocal()
+            try:
+                recent_sales = session.query(Sale).order_by(desc(Sale.created_at)).limit(5).all()
+                self.recent_sales_table.setRowCount(len(recent_sales))
+
+                for i, sale in enumerate(recent_sales):
+                    self.recent_sales_table.setItem(i, 0, QTableWidgetItem(sale.invoice_number or "-"))
+                    self.recent_sales_table.setItem(i, 1, QTableWidgetItem(sale.customer.name if sale.customer else "Walk-in"))
+                    self.recent_sales_table.setItem(i, 2, QTableWidgetItem(f"₵{sale.total_amount:,.2f}"))
+                    self.recent_sales_table.setItem(i, 3, QTableWidgetItem(sale.payment_status.title()))
+            finally:
+                session.close()
         except Exception as e:
-            print(f"Error updating low stock table: {e}")
+            print(f"Error updating recent sales table: {e}")
     
     def update_sales_chart(self):
         """Update the 7-day sales chart bars"""
