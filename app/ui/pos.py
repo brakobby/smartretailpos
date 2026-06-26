@@ -33,15 +33,15 @@ class POSWidget(QWidget):
         layout.setContentsMargins(24, 24, 24, 24)
         layout.setSpacing(16)
 
-        header = QLabel("Fast checkout")
-        header.setStyleSheet("font-size: 20px; font-weight: 700; color: #0f172a;")
+        header = QLabel("Fast Checkout")
+        header.setStyleSheet("font-size: 22px; font-weight: 700; color: #f8fbff;")
         layout.addWidget(header)
 
         search_card = QWidget()
         search_card.setStyleSheet("""
             QWidget {
-                background: #ffffff;
-                border: 1px solid #e2e8f0;
+                background: #0f172b;
+                border: 1px solid #24384f;
                 border-radius: 14px;
             }
         """)
@@ -49,7 +49,7 @@ class POSWidget(QWidget):
         search_layout.setContentsMargins(14, 14, 14, 14)
         self.barcode_input = QLineEdit()
         self.barcode_input.setPlaceholderText("Scan barcode or type it and press Enter")
-        self.barcode_input.setStyleSheet("QLineEdit { padding: 10px; border: 1px solid #cbd5e1; border-radius: 10px; }")
+        self.barcode_input.setStyleSheet("QLineEdit { padding: 10px; border: 1px solid #2c4f72; border-radius: 10px; background: #0b1322; color: #f8fbff; }")
         self.barcode_input.returnPressed.connect(self.add_scanned_product)
         search_layout.addWidget(self.barcode_input)
         add_button = QPushButton("Add item")
@@ -63,14 +63,14 @@ class POSWidget(QWidget):
         self.table.setAlternatingRowColors(True)
         self.table.setStyleSheet("""
             QTableWidget {
-                border: 1px solid #e2e8f0;
+                border: 1px solid #24384f;
                 border-radius: 12px;
-                background: #ffffff;
-                gridline-color: #f1f5f9;
+                background: #0b1322;
+                gridline-color: #1d2f46;
             }
             QHeaderView::section {
-                background-color: #f8fafc;
-                color: #0f172a;
+                background-color: #122036;
+                color: #8fb2ff;
                 font-weight: 600;
                 padding: 10px;
                 border: none;
@@ -81,8 +81,8 @@ class POSWidget(QWidget):
         controls_card = QWidget()
         controls_card.setStyleSheet("""
             QWidget {
-                background: #ffffff;
-                border: 1px solid #e2e8f0;
+                background: #0f172b;
+                border: 1px solid #24384f;
                 border-radius: 14px;
             }
         """)
@@ -93,20 +93,20 @@ class POSWidget(QWidget):
         customer_label = QLabel("Customer")
         controls_layout.addWidget(customer_label)
         self.customer_combo = QComboBox()
-        self.customer_combo.setStyleSheet("QComboBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
+        self.customer_combo.setStyleSheet("QComboBox { padding: 8px; border-radius: 8px; border: 1px solid #2c4f72; background: #0b1322; color: #f8fbff; }")
         controls_layout.addWidget(self.customer_combo)
 
         payment_label = QLabel("Payment")
         controls_layout.addWidget(payment_label)
         self.payment_combo = QComboBox()
         self.payment_combo.addItems(["cash", "credit", "mobile_money"])
-        self.payment_combo.setStyleSheet("QComboBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
+        self.payment_combo.setStyleSheet("QComboBox { padding: 8px; border-radius: 8px; border: 1px solid #2c4f72; background: #0b1322; color: #f8fbff; }")
         controls_layout.addWidget(self.payment_combo)
 
         self.amount_paid = QDoubleSpinBox()
         self.amount_paid.setMaximum(1000000)
         self.amount_paid.setValue(0.0)
-        self.amount_paid.setStyleSheet("QDoubleSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; }")
+        self.amount_paid.setStyleSheet("QDoubleSpinBox { padding: 8px; border-radius: 8px; border: 1px solid #2c4f72; background: #0b1322; color: #f8fbff; }")
         controls_layout.addWidget(QLabel("Amount paid"))
         controls_layout.addWidget(self.amount_paid)
         layout.addWidget(controls_card)
@@ -128,7 +128,7 @@ class POSWidget(QWidget):
         layout.addLayout(buttons)
 
         self.total_label = QLabel("Total: ₵0.00")
-        self.total_label.setStyleSheet("font-size: 18px; font-weight: 700; color: #0f172a;")
+        self.total_label.setStyleSheet("font-size: 18px; font-weight: 700; color: #f8fbff;")
         layout.addWidget(self.total_label)
 
     def load_customers(self):

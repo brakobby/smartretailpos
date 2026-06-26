@@ -1,11 +1,19 @@
 """
-Main Window - Application shell with sidebar navigation
+Main Window - Premium application shell with futuristic navigation.
 """
-from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-                                QPushButton, QLabel, QStackedWidget, QFrame,
-                                QSizePolicy, QSpacerItem)
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QFont, QIcon
+from PySide6.QtWidgets import (
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QLabel,
+    QStackedWidget,
+    QFrame,
+    QSizePolicy,
+    QSpacerItem,
+)
+from PySide6.QtCore import Qt
 
 
 class MainWindow(QMainWindow):
@@ -17,10 +25,8 @@ class MainWindow(QMainWindow):
     
     def setup_ui(self):
         """Setup the main window UI"""
-        self.setWindowTitle("SmartRetail POS")
-        self.setMinimumSize(1200, 700)
-        
-        # Remove title bar
+        self.setWindowTitle("Aurex Retail")
+        self.setMinimumSize(1320, 780)
         self.setWindowFlags(Qt.FramelessWindowHint)
         
         # Central widget
@@ -34,13 +40,13 @@ class MainWindow(QMainWindow):
         
         # ====== SIDEBAR ======
         sidebar = QFrame()
-        sidebar.setFixedWidth(250)
+        sidebar.setFixedWidth(260)
         sidebar.setStyleSheet("""
             QFrame {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                    stop:0 #0f172a, stop:1 #111827);
+                    stop:0 #07111f, stop:1 #0f172b);
                 border: none;
-                border-right: 1px solid #1f2937;
+                border-right: 1px solid #17263a;
             }
         """)
         
@@ -50,11 +56,11 @@ class MainWindow(QMainWindow):
         
         # App logo/title in sidebar
         sidebar_header = QFrame()
-        sidebar_header.setFixedHeight(92)
+        sidebar_header.setFixedHeight(110)
         sidebar_header.setStyleSheet("""
             QFrame {
                 background: transparent;
-                border-bottom: 1px solid #1f2937;
+                border-bottom: 1px solid #1b2d44;
             }
             QLabel {
                 color: white;
@@ -66,8 +72,8 @@ class MainWindow(QMainWindow):
         header_layout = QHBoxLayout(sidebar_header)
         header_layout.setContentsMargins(20, 0, 20, 0)
         
-        header_title = QLabel("🏪 SmartRetail")
-        header_title.setStyleSheet("font-size: 18px; font-weight: 700; letter-spacing: 0.5px;")
+        header_title = QLabel("Aurex Retail")
+        header_title.setStyleSheet("font-size: 18px; font-weight: 700; letter-spacing: 0.8px;")
         header_layout.addWidget(header_title)
         
         sidebar_layout.addWidget(sidebar_header)
@@ -104,12 +110,12 @@ class MainWindow(QMainWindow):
                 }
                 QPushButton:hover {
                     color: white;
-                    background-color: rgba(255,255,255,0.08);
-                    border: 1px solid rgba(255,255,255,0.12);
+                    background-color: rgba(59,130,246,0.16);
+                    border: 1px solid rgba(59,130,246,0.28);
                 }
                 QPushButton:checked {
                     color: white;
-                    background-color: #2563eb;
+                    background-color: #1d4ed8;
                     border: 1px solid #3b82f6;
                     font-weight: 600;
                 }
@@ -127,8 +133,8 @@ class MainWindow(QMainWindow):
         user_frame.setFixedHeight(88)
         user_frame.setStyleSheet("""
             QFrame {
-                background-color: rgba(255,255,255,0.04);
-                border-top: 1px solid #1f2937;
+                background-color: rgba(59,130,246,0.12);
+                border-top: 1px solid #1b2d44;
             }
             QLabel {
                 color: white;
@@ -158,7 +164,7 @@ class MainWindow(QMainWindow):
         content_frame = QFrame()
         content_frame.setStyleSheet("""
             QFrame {
-                background-color: #f4f7fb;
+                background-color: #060d17;
                 border: none;
             }
         """)
@@ -172,22 +178,22 @@ class MainWindow(QMainWindow):
         top_bar.setFixedHeight(68)
         top_bar.setStyleSheet("""
             QFrame {
-                background-color: #ffffff;
-                border-bottom: 1px solid #e5e7eb;
+                background-color: #091424;
+                border-bottom: 1px solid #17263a;
             }
             QLabel {
                 border: none;
                 background: transparent;
-                color: #0f172a;
+                color: #e5eefc;
             }
             QPushButton {
                 border: none;
                 background: transparent;
-                color: #64748b;
+                color: #8fb2ff;
                 font-size: 16px;
             }
             QPushButton:hover {
-                color: #2563eb;
+                color: #ffffff;
             }
         """)
         
@@ -196,11 +202,11 @@ class MainWindow(QMainWindow):
         
         # Page title (will be updated dynamically)
         self.page_title = QLabel("Dashboard")
-        self.page_title.setStyleSheet("font-size: 18px; font-weight: 700;")
+        self.page_title.setStyleSheet("font-size: 18px; font-weight: 700; color: #f8fbff;")
         top_layout.addWidget(self.page_title)
 
         self.status_badge = QLabel("● Live")
-        self.status_badge.setStyleSheet("font-size: 12px; color: #16a34a; font-weight: 600;")
+        self.status_badge.setStyleSheet("font-size: 12px; color: #34d399; font-weight: 600;")
         top_layout.addWidget(self.status_badge)
         top_layout.addStretch()
         
@@ -229,7 +235,7 @@ class MainWindow(QMainWindow):
         
         # Stacked widget for pages
         self.pages = QStackedWidget()
-        self.pages.setStyleSheet("background-color: #f4f7fb;")
+        self.pages.setStyleSheet("background-color: #060d17;")
         
         # Create placeholder pages
         from .dashboard import DashboardWidget

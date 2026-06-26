@@ -1,7 +1,5 @@
-from PySide6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
-                                QLineEdit, QPushButton, QMessageBox, QFrame)
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFrame
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont, QIcon
 
 from app.auth import authenticate
 
@@ -18,17 +16,17 @@ class LoginWindow(QDialog):
 
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        
-        self.setWindowTitle("SmartRetail POS - Login")
-        self.setFixedSize(440, 560)  # Slightly larger
-        
-        # Main container with background
+
+        self.setWindowTitle("Aurex Retail - Secure Access")
+        self.setFixedSize(460, 610)
+
         main_container = QFrame()
         main_container.setStyleSheet("""
             QFrame {
-                background-color: white;
-                border-radius: 15px;
-                border: 1px solid #e0e0e0;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #0d1727, stop:1 #11233d);
+                border-radius: 20px;
+                border: 1px solid #1f3a5b;
             }
         """)
         
@@ -37,36 +35,34 @@ class LoginWindow(QDialog):
         layout.setSpacing(12)
         layout.setContentsMargins(50, 50, 50, 50)  # More padding
         
-        # App Icon/Logo area
-        logo_label = QLabel("🏪")
+        logo_label = QLabel("⚡")
         logo_label.setAlignment(Qt.AlignCenter)
-        logo_label.setMinimumHeight(60)
+        logo_label.setMinimumHeight(70)
         logo_label.setStyleSheet("""
-            font-size: 48px;
+            font-size: 52px;
             border: none;
             background: transparent;
         """)
         layout.addWidget(logo_label)
-        
-        # App Title
-        title = QLabel("LORBIB ENTERPRISE")
+
+        title = QLabel("AUREX RETAIL")
         title.setAlignment(Qt.AlignCenter)
-        title.setMinimumHeight(40)
+        title.setMinimumHeight(42)
         title.setStyleSheet("""
             font-size: 28px;
             font-weight: bold;
-            color: #2c3e50;
+            color: #f8fbff;
+            letter-spacing: 1.2px;
             border: none;
             background: transparent;
         """)
         layout.addWidget(title)
-        
-        # Subtitle
-        subtitle = QLabel("Sign in to continue")
+
+        subtitle = QLabel("Secure enterprise access")
         subtitle.setAlignment(Qt.AlignCenter)
         subtitle.setMinimumHeight(25)
         subtitle.setStyleSheet("""
-            color: #7f8c8d; 
+            color: #7fb0ff;
             font-size: 14px;
             border: none;
             background: transparent;
@@ -76,13 +72,12 @@ class LoginWindow(QDialog):
         layout.addSpacing(20)
         
         # Username section
-        username_label = QLabel("  Username")
+        username_label = QLabel("Username")
         username_label.setMinimumHeight(22)
         username_label.setStyleSheet("""
-            font-weight: bold; 
-            color: #2c3e50; 
+            font-weight: bold;
+            color: #f8fbff;
             font-size: 13px;
-            padding-left: 5px;
             border: none;
             background: transparent;
         """)
@@ -94,15 +89,15 @@ class LoginWindow(QDialog):
         self.username_input.setStyleSheet("""
             QLineEdit {
                 padding: 10px 15px;
-                border: 2px solid #e0e0e0;
-                border-radius: 8px;
+                border: 1px solid #2c4f72;
+                border-radius: 10px;
                 font-size: 14px;
-                color: #2c3e50;
-                background-color: #f8f9fa;
+                color: #f8fbff;
+                background-color: #0f172b;
             }
             QLineEdit:focus {
-                border: 2px solid #3498db;
-                background-color: white;
+                border: 1px solid #3b82f6;
+                background-color: #111e33;
             }
         """)
         layout.addWidget(self.username_input)
@@ -110,13 +105,12 @@ class LoginWindow(QDialog):
         layout.addSpacing(5)
         
         # Password section
-        password_label = QLabel("  Password")
+        password_label = QLabel("Password")
         password_label.setMinimumHeight(22)
         password_label.setStyleSheet("""
-            font-weight: bold; 
-            color: #2c3e50; 
+            font-weight: bold;
+            color: #f8fbff;
             font-size: 13px;
-            padding-left: 5px;
             border: none;
             background: transparent;
         """)
@@ -129,15 +123,15 @@ class LoginWindow(QDialog):
         self.password_input.setStyleSheet("""
             QLineEdit {
                 padding: 10px 15px;
-                border: 2px solid #e0e0e0;
-                border-radius: 8px;
+                border: 1px solid #2c4f72;
+                border-radius: 10px;
                 font-size: 14px;
-                color: #2c3e50;
-                background-color: #f8f9fa;
+                color: #f8fbff;
+                background-color: #0f172b;
             }
             QLineEdit:focus {
-                border: 2px solid #3498db;
-                background-color: white;
+                border: 1px solid #3b82f6;
+                background-color: #111e33;
             }
         """)
         layout.addWidget(self.password_input)
@@ -165,18 +159,17 @@ class LoginWindow(QDialog):
         self.login_btn.setCursor(Qt.PointingHandCursor)
         self.login_btn.setStyleSheet("""
             QPushButton {
-                background-color: #3498db;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #3b82f6, stop:1 #2563eb);
                 color: white;
-                font-size: 16px;
+                font-size: 15px;
                 font-weight: bold;
-                border-radius: 8px;
+                border-radius: 10px;
                 border: none;
             }
             QPushButton:hover {
-                background-color: #2980b9;
-            }
-            QPushButton:pressed {
-                background-color: #2471a3;
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                    stop:0 #60a5fa, stop:1 #3b82f6);
             }
         """)
         self.login_btn.clicked.connect(self.login)
@@ -190,13 +183,13 @@ class LoginWindow(QDialog):
         close_btn.setCursor(Qt.PointingHandCursor)
         close_btn.setStyleSheet("""
             QPushButton {
-                color: #95a5a6;
+                color: #8fb2ff;
                 font-size: 13px;
                 border: none;
                 background: transparent;
             }
             QPushButton:hover {
-                color: #e74c3c;
+                color: #ffffff;
             }
         """)
         close_btn.clicked.connect(self.reject)
